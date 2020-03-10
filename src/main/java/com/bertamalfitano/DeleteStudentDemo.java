@@ -1,10 +1,12 @@
 package com.bertamalfitano;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
 import java.util.List;
 
-public class UpdateStudentDemo {
+public class DeleteStudentDemo {
     public static void main(String[] args) {
         //create session factory
         SessionFactory factory = new Configuration()
@@ -26,19 +28,15 @@ public class UpdateStudentDemo {
 
             Student myStudent = session.get(Student.class, studentId);
 
-            //change the name of the student with id 1
-            System.out.println("Updating student...");
-            myStudent.setFirstName("Scooby");
+            //delete the student(way_1)
+            //System.out.println("Deleting the student " + myStudent);
+            //session.delete(myStudent);
+
+            //delete the student(way_2)
+            System.out.println("Deleting student id=2");
+            session.createQuery("delete from Student where id=2").executeUpdate();
 
             //commit the transaction
-            session.getTransaction().commit();
-
-
-            //update email for all students
-            session = factory.getCurrentSession();
-            session.beginTransaction();
-            System.out.println("Update email for all students");
-            session.createQuery("UPDATE Student set email='foo@yandex.ru'").executeUpdate();
             session.getTransaction().commit();
 
 
